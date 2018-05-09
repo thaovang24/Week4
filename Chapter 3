@@ -1,0 +1,94 @@
+
+#!/bin/bash
+
+echo "thao vang"
+echo "CSCI 2461"
+echo "Following along with module instructor"
+
+
+
+mkdir week4
+
+echo "Using the command dd (disk duplication) to create an image from device zero"
+
+dd if=/dev/zero of=./32MB.img bs=1M count=32
+
+hexdump ./32MB.img | less
+
+echo "press enter to continue"
+
+read
+
+
+echo "The command mkfs (make file system) is used to create file systems for linux"
+mkfs -t ext4 ./32MB.img
+
+echo "press enter to continue"
+read
+
+echo "this command list the long format of mkfs file systems"
+ls -l /sbin/mkfs.*
+
+echo "press enter to continue"
+read
+
+
+echo  " To create a mount point with the command mount ./32MB.img/tmp command. You need to know the filesystem's device, filesystem type, and the mountpoint fer this"
+ 
+
+sudo mkdir /mnt/tmp
+sudo mount ./32MB.img /mnt/tmp
+
+echo "press enter to continue"
+read
+
+echo " the df command display information about the mounted filesystem. The numbers mean the filesystem, 1024 blocks capacity, the amount of used blocks, how many are available and the mount point."
+
+df -h
+
+
+
+echo  "command lsblk will tell you more information for block devices."
+
+lsblk
+echo "press enter"
+read
+
+echo "change directory to tmp"
+cd /mnt/tmp
+
+read
+
+
+echo "Hello World! will be put into this hello.txt file in the tmp folder"
+
+echo "Hello World!" > ./hello.txt
+
+read
+
+echo "to unmount the folder tmp we need to issue this command amount /mnt/tmp"
+umount /mnt/tmp
+
+cd /tmp
+
+echo " this shows the hex and the ASCII characters we wrote and pipe to the command less"
+hexdump --canonical ./32MB.img | less 
+
+echo "press enter"
+read
+
+echo "create directory dir_1 and dir_2 and will create textfile in both directories and create a link to these files"
+ 
+mkdir dir_1 dir_2
+echo "a" > dir_1/file_1
+echo "b" > dir_1/file_2
+echo "c" > dir_1/file_3
+echo "d" > dir_2/file_4
+ln dir_1/file_3 dir_2/file_5
+
+echo "press enter"
+read
+
+
+echo "list the anode ID for dir_1 and dir_2"
+ls -iR dir_*
